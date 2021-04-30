@@ -6,29 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/white"
-        android:gravity="center"
-        android:hint="Title"
-        android:padding="20dp"
-        android:layout_centerHorizontal="true"
-        android:textSize="35sp" />
-
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="321dp"
+        android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/item_list" />
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

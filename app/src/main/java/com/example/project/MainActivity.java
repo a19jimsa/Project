@@ -1,6 +1,8 @@
 package com.example.project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +33,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private List<Answer> items;
     private RecyclerViewAdapter adapter;
+    private RecyclerViewItem [] recyclerViewItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +46,8 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this.getApplicationContext(), item.getCorrect(), Toast.LENGTH_SHORT).show();
             }
         });
-        RecyclerView view = findViewById(R.id.recycler_view);
-        view.setLayoutManager(new GridLayoutManager(this,2));
-        view.setAdapter(adapter);
-
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setOnNavigationItemSelectedListener(listener);
     }
 
     @Override
@@ -99,13 +101,35 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String json) {
             Log.d("TAG", json);
             Gson gson = new Gson();
-            RecyclerViewItem [] item = gson.fromJson(json, RecyclerViewItem[].class);
-            for(int i = 0; i < item.length; i++){
-                items.addAll(Arrays.asList(item[i].getAuxdata().getAnswer()));
+            //Skicka till vilken fragment som helst! HÄr finns all data sparad och samlad!
+            recyclerViewItems = gson.fromJson(json, RecyclerViewItem[].class);
+            for(int i = 0; i < recyclerViewItems.length; i++){
+                items.addAll(Arrays.asList(recyclerViewItems[i].getAuxdata().getAnswer()));
             }
             adapter.notifyDataSetChanged();
-            TextView textView = findViewById(R.id.title);
-            textView.setText(item[0].getAuxdata().getQuestion());
         }
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment = null;
+            switch (item.getItemId()) {
+                case R.id.nav_home:
+                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    break;
+                case R.id.nav_about:
+                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    break;
+                case R.id.nav_favorites:
+                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    break;
+                case R.id.nav_quiz:
+                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    break;
+            }
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+            return true;
+        }
+    };
 }

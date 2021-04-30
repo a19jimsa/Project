@@ -4,7 +4,7 @@ public class AuxData {
     private String question;
     private Answer [] answer;
 
-    public AuxData(String question, Answer [] answer){
+    public AuxData(String question, Answer... answer){
         this.question = question;
         this.answer = answer;
     }

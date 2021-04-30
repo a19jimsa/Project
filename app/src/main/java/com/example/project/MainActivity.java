@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -27,7 +28,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private List<RecyclerViewItem> items;
+    private List<Answer> items;
     private RecyclerViewAdapter adapter;
 
     @Override
@@ -37,13 +38,14 @@ public class MainActivity extends AppCompatActivity {
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a19jimsa");
         adapter = new RecyclerViewAdapter(this, items = new ArrayList<>(), new RecyclerViewAdapter.OnClickListener() {
             @Override
-            public void onClick(RecyclerViewItem item) {
-                Toast.makeText(MainActivity.this.getApplicationContext(), item.getName(), Toast.LENGTH_SHORT).show();
+            public void onClick(Answer item) {
+                Toast.makeText(MainActivity.this.getApplicationContext(), item.getChoice(), Toast.LENGTH_SHORT).show();
             }
         });
         RecyclerView view = findViewById(R.id.recycler_view);
         view.setLayoutManager(new GridLayoutManager(this,2));
         view.setAdapter(adapter);
+
     }
 
     @Override
@@ -98,10 +100,12 @@ public class MainActivity extends AppCompatActivity {
             Log.d("TAG", json);
             Gson gson = new Gson();
             RecyclerViewItem [] item = gson.fromJson(json, RecyclerViewItem[].class);
-            items.addAll(Arrays.asList(item));
+            for(int i = 0; i < item.length; i++){
+                items.addAll(Arrays.asList(item[i].getAuxdata().getAnswer()));
+            }
             adapter.notifyDataSetChanged();
-
-            Log.d("TAG", ""+items.size());
+            TextView textView = findViewById(R.id.title);
+            textView.setText(item[0].getAuxdata().getQuestion());
         }
     }
 }

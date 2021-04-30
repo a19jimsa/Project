@@ -15,7 +15,7 @@ public class RecyclerViewItem{
     private String category;
     private int size;
     private int cost;
-    private String auxdata;
+    private AuxData auxdata;
 
     public String getId() {
         return id;
@@ -49,7 +49,7 @@ public class RecyclerViewItem{
         return cost;
     }
 
-    public String getAuxdata() {
+    public AuxData getAuxdata() {
         return auxdata;
     }
 

@@ -17,11 +17,6 @@
         android:layout_gravity="center"
         android:gravity="center">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_launcher_background" />
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -29,6 +24,13 @@
             android:layout_gravity="center"
             android:background="@color/white"
             android:hint="Title"
+            android:gravity="center"
             android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_launcher_background" />
+
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

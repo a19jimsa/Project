@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new RecyclerViewAdapter(this, items = new ArrayList<>(), new RecyclerViewAdapter.OnClickListener() {
             @Override
             public void onClick(Answer item) {
-                Toast.makeText(MainActivity.this.getApplicationContext(), item.getChoice(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this.getApplicationContext(), item.getCorrect(), Toast.LENGTH_SHORT).show();
             }
         });
         RecyclerView view = findViewById(R.id.recycler_view);

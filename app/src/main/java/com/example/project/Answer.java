@@ -13,11 +13,7 @@ public class Answer {
         return choice;
     }
 
-    public String getCorrect() {
-        if(correct){
-            return "Svaret är rätt!";
-        }else{
-            return "Svaret är fel!";
-        }
+    public boolean isCorrect() {
+        return correct;
     }
 }

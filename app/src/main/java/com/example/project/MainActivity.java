@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         });
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(listener);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
     }
 
     @Override
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.nav_home:
-                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    fragment = new HomeFragment();
                     break;
                 case R.id.nav_about:
                     fragment = new QuizFragment(adapter, recyclerViewItems);

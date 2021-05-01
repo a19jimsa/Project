@@ -104,10 +104,6 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             //Skicka till vilken fragment som helst! HÄr finns all data sparad och samlad!
             recyclerViewItems = gson.fromJson(json, RecyclerViewItem[].class);
-            for(int i = 0; i < recyclerViewItems.length; i++){
-                items.addAll(Arrays.asList(recyclerViewItems[i].getAuxdata().getAnswer()));
-            }
-            adapter.notifyDataSetChanged();
         }
     }
 
@@ -120,13 +116,13 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment();
                     break;
                 case R.id.nav_about:
-                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    fragment = new QuizFragment(adapter, recyclerViewItems, items);
                     break;
                 case R.id.nav_favorites:
-                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    fragment = new QuizFragment(adapter, recyclerViewItems, items);
                     break;
                 case R.id.nav_quiz:
-                    fragment = new QuizFragment(adapter, recyclerViewItems);
+                    fragment = new QuizFragment(adapter, recyclerViewItems, items);
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();

@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a19jimsa");
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(listener);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment()).commit();
     }
 
     @Override
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             Gson gson = new Gson();
             //Skicka till vilken fragment som helst! HÄr finns all data sparad och samlad!
             recyclerViewItems = gson.fromJson(json, RecyclerViewItem[].class);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new HomeFragment(recyclerViewItems)).commit();
         }
     }
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (item.getItemId()) {
                 case R.id.nav_home:
-                    fragment = new HomeFragment();
+                    fragment = new HomeFragment(recyclerViewItems);
                     break;
                 case R.id.nav_about:
                     fragment = new QuizFragment(adapter, recyclerViewItems, items);

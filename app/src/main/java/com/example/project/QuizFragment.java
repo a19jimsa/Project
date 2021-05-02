@@ -36,6 +36,7 @@ public class QuizFragment extends Fragment {
     private RecyclerViewAdapter adapter;
     private RecyclerViewItem [] item;
     private List<Answer> items;
+    private Button button;
     private int nextQuestion;
 
     public QuizFragment(){
@@ -56,7 +57,7 @@ public class QuizFragment extends Fragment {
         adapter = new RecyclerViewAdapter(getContext(), items = new ArrayList<>(), new RecyclerViewAdapter.OnClickListener() {
             @Override
             public void onClick(Answer item, LinearLayout card) {
-                Toast.makeText(getContext(), item.getChoice(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), item.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -69,7 +70,7 @@ public class QuizFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         recyclerView.setAdapter(adapter);
-        Button button = view.findViewById(R.id.question_button);
+        button = view.findViewById(R.id.question_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,6 +93,8 @@ public class QuizFragment extends Fragment {
         textView.setText(item[nextQuestion].getAuxdata().getQuestion());
         items.addAll(Arrays.asList(item[nextQuestion].getAuxdata().getAnswer()));
         adapter.notifyDataSetChanged();
-        nextQuestion++;
+        if(nextQuestion < item.length-1){
+            nextQuestion++;
+        }
     }
 }

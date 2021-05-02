@@ -16,4 +16,13 @@ public class Answer {
     public boolean isCorrect() {
         return correct;
     }
+
+    @Override
+    public String toString() {
+        if(isCorrect()){
+            return "Ja det är rätt!";
+        }else{
+            return "Nej det är fel!";
+        }
+    }
 }

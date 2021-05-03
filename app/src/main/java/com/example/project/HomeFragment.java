@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         items = new ArrayList<>(Arrays.asList(item));
-        adapter = new ArrayAdapter<>(getContext(), R.layout.item_list_view,R.id.textView,items);
+        adapter = new ArrayAdapter<>(getContext(), R.layout.item_list_view, R.id.textView, items);
         ListView listView = view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

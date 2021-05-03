@@ -17,6 +17,13 @@ public class RecyclerViewItem{
     private int cost;
     private AuxData [] auxdata;
 
+    public RecyclerViewItem(String id, String name, String category, String location){
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.location = location;
+    }
+
     public String getId() {
         return id;
     }
@@ -55,6 +62,6 @@ public class RecyclerViewItem{
 
     @Override
     public String toString() {
-        return category;
+        return id;
     }
 }

@@ -12,6 +12,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class FavoriteFragment extends Fragment {
     RecyclerViewItem [] items;
@@ -32,7 +35,7 @@ public class FavoriteFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         // Inflate the layout for this fragment
-        ArrayList<AuxData> list = new ArrayList<>();
+        List<AuxData> list = new ArrayList<>();
         for(int i = 0; i < items.length; i++){
             list.addAll(Arrays.asList(items[i].getAuxdata()));
         }

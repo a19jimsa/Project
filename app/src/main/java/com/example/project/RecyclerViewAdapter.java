@@ -22,6 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Answer> items;
     private LayoutInflater layoutInflater;
     private OnClickListener onClickListener;
+    private Boolean isVisible = false;
 
     RecyclerViewAdapter(Context context, List<Answer> items, OnClickListener onClickListener) {
         this.layoutInflater = LayoutInflater.from(context);
@@ -38,10 +39,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(items.get(position).getChoice());
+        if(isVisible){
+            holder.card.setOnClickListener(null);
+        }
     }
 
-    public ViewHolder getViewHolder(){
-        return getViewHolder();
+    public void updateVisibility(boolean newValue){
+        isVisible= newValue;
     }
 
     @Override
@@ -53,6 +57,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         LinearLayout card;
+        int pressed = 0;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -64,6 +69,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View view) {
             onClickListener.onClick(items.get(getAdapterPosition()), card);
+            pressed = 1;
         }
     }
 

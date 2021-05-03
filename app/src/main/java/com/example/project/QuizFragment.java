@@ -115,6 +115,8 @@ public class QuizFragment extends Fragment {
             }else {
                 card.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.incorrect));
             }
+            adapter.updateVisibility(true);
+            adapter.notifyDataSetChanged();
         }
     };
 }

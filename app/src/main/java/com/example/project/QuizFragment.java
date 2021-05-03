@@ -43,23 +43,15 @@ public class QuizFragment extends Fragment {
 
     }
 
-    public QuizFragment(RecyclerViewAdapter adapter, RecyclerViewItem [] item, List<Answer> items){
-        this.adapter = adapter;
+    public QuizFragment(RecyclerViewItem [] item){
         this.item = item;
-        this.items = items;
         this.nextQuestion = 0;
+        this.items = new ArrayList<>();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        adapter = new RecyclerViewAdapter(getContext(), items = new ArrayList<>(), new RecyclerViewAdapter.OnClickListener() {
-            @Override
-            public void onClick(Answer item, LinearLayout card) {
-                Toast.makeText(getContext(), item.toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override
@@ -70,17 +62,18 @@ public class QuizFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         recyclerView.setAdapter(adapter);
+        createQuestion();
         button = view.findViewById(R.id.question_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 button.setText("Next Question");
+                createQuestion();
                 nextQuestion(view);
+                adapter.notifyDataSetChanged();
             }
         });
 
-        items.clear();
-        adapter.notifyDataSetChanged();
         TextView textView = view.findViewById(R.id.title);
         textView.setText("Starta Quizzet!");
         button.setText("Starta");
@@ -88,13 +81,40 @@ public class QuizFragment extends Fragment {
     }
 
     public void nextQuestion(View view){
-        items.clear();
         TextView textView = view.findViewById(R.id.title);
-        textView.setText(item[nextQuestion].getAuxdata().getQuestion());
-        items.addAll(Arrays.asList(item[nextQuestion].getAuxdata().getAnswer()));
-        adapter.notifyDataSetChanged();
-        if(nextQuestion < item.length-1){
+        if(nextQuestion < item.length){
+            items.clear();
+            textView.setText(item[nextQuestion].getAuxdata().getQuestion());
+            items.addAll(Arrays.asList(item[nextQuestion].getAuxdata().getAnswer()));
+            adapter.notifyDataSetChanged();
             nextQuestion++;
+        }else{
+            items.clear();
+            textView.setText("Ditt resultat blev");
+            adapter.notifyDataSetChanged();
+            button.setText("Spela igen?");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
         }
     }
+
+    private void createQuestion(){
+        adapter = new RecyclerViewAdapter(getContext(), items, listener);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private RecyclerViewAdapter.OnClickListener listener = new RecyclerViewAdapter.OnClickListener() {
+        @Override
+        public void onClick(Answer item, LinearLayout card) {
+            if(item.isCorrect()){
+                card.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.correct));
+            }else {
+                card.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.incorrect));
+            }
+        }
+    };
 }

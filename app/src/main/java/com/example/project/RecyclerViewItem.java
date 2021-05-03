@@ -55,6 +55,6 @@ public class RecyclerViewItem{
 
     @Override
     public String toString() {
-        return name;
+        return auxdata.getQuestion();
     }
 }

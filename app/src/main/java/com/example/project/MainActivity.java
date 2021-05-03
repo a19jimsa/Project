@@ -31,8 +31,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private List<Answer> items;
-    private RecyclerViewAdapter adapter;
     private RecyclerViewItem [] recyclerViewItems;
 
     @Override
@@ -110,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment(recyclerViewItems);
                     break;
                 case R.id.nav_about:
-                    fragment = new QuizFragment(adapter, recyclerViewItems, items);
+                    fragment = new QuizFragment(recyclerViewItems);
                     break;
                 case R.id.nav_favorites:
-                    fragment = new QuizFragment(adapter, recyclerViewItems, items);
+                    fragment = new QuizFragment(recyclerViewItems);
                     break;
                 case R.id.nav_quiz:
-                    fragment = new QuizFragment(adapter, recyclerViewItems, items);
+                    fragment = new QuizFragment(recyclerViewItems);
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();

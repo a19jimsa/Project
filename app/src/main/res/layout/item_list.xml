@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
     android:id="@+id/cardView"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="20dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="2dp">
+    app:cardElevation="2dp"
+    android:layoutAnimation="@anim/layout_animation"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:id="@+id/cardLayout"
@@ -26,6 +27,5 @@
             android:gravity="center"
             android:hint="Title"
             android:textSize="18sp" />
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

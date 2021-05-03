@@ -38,12 +38,10 @@ public class QuizFragment extends Fragment {
     private List<Answer> items;
     private Button button;
     private int nextQuestion;
+    private int category;
 
-    public QuizFragment(){
-
-    }
-
-    public QuizFragment(RecyclerViewItem [] item){
+    public QuizFragment(int category, RecyclerViewItem [] item){
+        this.category = category;
         this.item = item;
         this.nextQuestion = 0;
         this.items = new ArrayList<>();
@@ -62,13 +60,13 @@ public class QuizFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         recyclerView.setAdapter(adapter);
-        createQuestion();
+        createQuiz();
         button = view.findViewById(R.id.question_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 button.setText("Next Question");
-                createQuestion();
+                createQuiz();
                 nextQuestion(view);
                 adapter.notifyDataSetChanged();
             }
@@ -82,38 +80,38 @@ public class QuizFragment extends Fragment {
 
     public void nextQuestion(View view){
         TextView textView = view.findViewById(R.id.title);
-        if(nextQuestion < item.length){
+        if(nextQuestion < item[category].getAuxdata().length){
             items.clear();
-            textView.setText(item[nextQuestion].getAuxdata().getQuestion());
-            items.addAll(Arrays.asList(item[nextQuestion].getAuxdata().getAnswer()));
+            textView.setText(item[category].getAuxdata()[nextQuestion].getQuestion());
+            items.addAll(Arrays.asList(item[category].getAuxdata()[nextQuestion].getAnswer()));
             adapter.notifyDataSetChanged();
             nextQuestion++;
         }else{
+            textView.setText("Ditt resultat blev " + 0 + " av " + item[category].getAuxdata().length + "!\nBra jobbat!");
             items.clear();
-            textView.setText("Ditt resultat blev");
             adapter.notifyDataSetChanged();
             button.setText("Spela igen?");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(category, item)).commit();
                 }
             });
         }
     }
 
-    private void createQuestion(){
+    private void createQuiz(){
         adapter = new RecyclerViewAdapter(getContext(), items, listener);
         recyclerView.setAdapter(adapter);
     }
 
-    private RecyclerViewAdapter.OnClickListener listener = new RecyclerViewAdapter.OnClickListener() {
+    private final RecyclerViewAdapter.OnClickListener listener = new RecyclerViewAdapter.OnClickListener() {
         @Override
         public void onClick(Answer item, LinearLayout card) {
             if(item.isCorrect()){
-                card.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.correct));
+                card.setBackgroundColor(ContextCompat.getColor(recyclerView.getContext(), R.color.correct));
             }else {
-                card.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.incorrect));
+                card.setBackgroundColor(ContextCompat.getColor(recyclerView.getContext(), R.color.incorrect));
             }
             adapter.updateVisibility(true);
             adapter.notifyDataSetChanged();

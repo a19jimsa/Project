@@ -108,13 +108,13 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment(recyclerViewItems);
                     break;
                 case R.id.nav_about:
-                    fragment = new QuizFragment(recyclerViewItems);
+                    fragment = new HomeFragment(recyclerViewItems);
                     break;
                 case R.id.nav_favorites:
-                    fragment = new QuizFragment(recyclerViewItems);
+                    fragment = new HomeFragment(recyclerViewItems);
                     break;
                 case R.id.nav_quiz:
-                    fragment = new QuizFragment(recyclerViewItems);
+                    fragment = new HomeFragment(recyclerViewItems);
                     break;
             }
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();

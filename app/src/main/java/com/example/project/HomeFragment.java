@@ -49,6 +49,7 @@ public class HomeFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(position, item)).commit();
 
             }
         });

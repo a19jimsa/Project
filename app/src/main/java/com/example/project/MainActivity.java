@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment(recyclerViewItems);
                     break;
                 case R.id.nav_favorites:
-                    fragment = new HomeFragment(recyclerViewItems);
+                    fragment = new FavoriteFragment(recyclerViewItems);
                     break;
                 case R.id.nav_quiz:
                     fragment = new HomeFragment(recyclerViewItems);

@@ -40,7 +40,7 @@ public class FavoriteFragment extends Fragment {
         // Required empty public constructor
         this.items = items;
         this.selection = DatabaseTables.Quiz.COLUMN_NAME_LOCATION + "= ?";
-        this.selectionArgs = new String[]{"Programmering"};
+        this.selectionArgs = new String[]{"Språk"};
     }
 
     @Override

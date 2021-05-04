@@ -19,8 +19,8 @@ import java.util.Arrays;
 
 public class HomeFragment extends Fragment {
     private RecyclerViewItem [] item;
-    private ArrayList<String> items;
-    private ArrayAdapter<String> adapter;
+    private ArrayList<RecyclerViewItem> items;
+    private  ArrayAdapter<RecyclerViewItem> adapter;
 
     public HomeFragment(RecyclerViewItem [] item) {
         // Required empty public constructor
@@ -42,10 +42,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        items = new ArrayList<String>();
-        for(int i = 0; i < item.length; i++){
-            items.add(item[i].getCategory());
-        }
+        items = new ArrayList<>(Arrays.asList(item));
         adapter = new ArrayAdapter<>(getContext(), R.layout.item_list_view, R.id.textView, items);
         ListView listView = view.findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -53,6 +50,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(position, item)).commit();
+
             }
         });
     }

@@ -39,11 +39,13 @@ public class QuizFragment extends Fragment {
     private Button button;
     private int nextQuestion;
     private int category;
+    private int points;
 
     public QuizFragment(int category, RecyclerViewItem [] item){
         this.category = category;
         this.item = item;
         this.nextQuestion = 0;
+        this.points = 0;
         this.items = new ArrayList<>();
     }
 
@@ -73,7 +75,7 @@ public class QuizFragment extends Fragment {
         });
 
         TextView textView = view.findViewById(R.id.title);
-        textView.setText("Starta Quizzet!");
+        textView.setText("Starta Quizzet!\nKategori " + item[category].getCategory() + "\nOmråde: " + item[category].getLocation());
         button.setText("Starta");
         return view;
     }
@@ -87,9 +89,10 @@ public class QuizFragment extends Fragment {
             adapter.notifyDataSetChanged();
             nextQuestion++;
         }else{
-            textView.setText("Ditt resultat blev " + 0 + " av " + item[category].getAuxdata().length + "!\nBra jobbat!");
+            textView.setText("Ditt resultat blev " + points + " av " + item[category].getAuxdata().length + "!\nBra jobbat!");
             items.clear();
             adapter.notifyDataSetChanged();
+            points = 0;
             button.setText("Spela igen?");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,6 +112,7 @@ public class QuizFragment extends Fragment {
         @Override
         public void onClick(Answer item, LinearLayout card) {
             if(item.isCorrect()){
+                points++;
                 card.setBackgroundColor(ContextCompat.getColor(recyclerView.getContext(), R.color.correct));
             }else {
                 card.setBackgroundColor(ContextCompat.getColor(recyclerView.getContext(), R.color.incorrect));

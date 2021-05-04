@@ -25,6 +25,7 @@
         android:layout_below="@+id/favorite_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="@string/hello_blank_fragment"
+        android:layoutAnimation="@anim/layout_animation"/>
 
 </RelativeLayout>

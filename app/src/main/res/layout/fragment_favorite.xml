@@ -4,9 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FavoriteFragment">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/favorite_title"
+        android:layout_below="@+id/action_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Favoriter"
@@ -15,23 +20,6 @@
         android:textSize="48sp"
         android:layout_margin="10dp"
         />
-    <Button
-        android:id="@+id/sql_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Lagra sql"/>
-    <Button
-        android:id="@+id/sql_read_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Läs SQL"/>
-    <TextView
-        android:id="@+id/sqlTable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/fragmentContainer"
-        android:layout_centerHorizontal="true" />
     <ListView
         android:id="@+id/favorite_listView"
         android:layout_below="@+id/favorite_title"

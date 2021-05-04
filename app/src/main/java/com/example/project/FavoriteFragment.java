@@ -7,13 +7,16 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,14 +28,19 @@ import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_CATEGORY;
 import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 
 public class FavoriteFragment extends Fragment {
-    RecyclerViewItem [] items;
-    ArrayAdapter<RecyclerViewItem> adapter;
+    private List<RecyclerViewItem> list;
+    private RecyclerViewItem [] items;
+    private ArrayAdapter<RecyclerViewItem> adapter;
     private SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
+    private String selection;
+    private String [] selectionArgs;
 
     public FavoriteFragment(RecyclerViewItem [] items) {
         // Required empty public constructor
         this.items = items;
+        this.selection = DatabaseTables.Quiz.COLUMN_NAME_LOCATION + "= ?";
+        this.selectionArgs = new String[]{"Programmering"};
     }
 
     @Override
@@ -44,28 +52,13 @@ public class FavoriteFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        TextView textView = view.findViewById(R.id.sqlTable);
-        Button button = view.findViewById(R.id.sql_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-        Button button1 = view.findViewById(R.id.sql_read_button);
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-
         addQuiz();
-        // Inflate the layout for this fragment
-        List<RecyclerViewItem> list = getQuiz();
+        list = getQuiz(selection, selectionArgs);
         adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
         ListView listView = view.findViewById(R.id.favorite_listView);
+        listView.setOnItemClickListener(listener);
         listView.setAdapter(adapter);
         return view;
     }
@@ -90,8 +83,8 @@ public class FavoriteFragment extends Fragment {
         }
     }
 
-    private List<RecyclerViewItem> getQuiz() {
-        Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null, COLUMN_NAME_CATEGORY + " ASC");
+    private List<RecyclerViewItem> getQuiz(String selection, String [] selectionArgs) {
+        Cursor cursor = database.query(TABLE_NAME, null, selection, selectionArgs, null, null, COLUMN_NAME_CATEGORY + " DESC");
         List<RecyclerViewItem> quizList = new ArrayList<>();
         while (cursor.moveToNext()) {
             RecyclerViewItem quiz = new RecyclerViewItem(
@@ -105,4 +98,12 @@ public class FavoriteFragment extends Fragment {
         cursor.close();
         return quizList;
     }
+
+    private AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Log.d("TAG", list.get(position).toString());
+        }
+    };
+
 }

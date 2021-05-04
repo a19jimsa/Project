@@ -102,6 +102,7 @@ public class FavoriteFragment extends Fragment {
     private AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(Integer.parseInt(list.get(position).getId())-1, items)).commit();
             Log.d("TAG", list.get(position).toString());
         }
     };

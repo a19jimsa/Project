@@ -17,10 +17,6 @@ public class RecyclerViewItem{
     private int cost;
     private AuxData [] auxdata;
 
-    public RecyclerViewItem(String category){
-        this.category = category;
-    }
-
     public RecyclerViewItem(String id, String name, String category, String location){
         this.id = id;
         this.name = name;

@@ -40,8 +40,6 @@ import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 public class MainActivity extends AppCompatActivity {
     private RecyclerViewItem [] recyclerViewItems;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

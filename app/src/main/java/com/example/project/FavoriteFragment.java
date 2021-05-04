@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_CATEGORY;
 import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 
 public class FavoriteFragment extends Fragment {
@@ -28,7 +29,6 @@ public class FavoriteFragment extends Fragment {
     ArrayAdapter<RecyclerViewItem> adapter;
     private SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
-    String values ="";
 
     public FavoriteFragment(RecyclerViewItem [] items) {
         // Required empty public constructor
@@ -52,9 +52,16 @@ public class FavoriteFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addQuiz();
             }
         });
+        Button button1 = view.findViewById(R.id.sql_read_button);
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+
+        addQuiz();
         // Inflate the layout for this fragment
         List<RecyclerViewItem> list = getQuiz();
         adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
@@ -67,7 +74,13 @@ public class FavoriteFragment extends Fragment {
         database.execSQL(DatabaseTables.SQL_DELETE_TABLE_QUIZ);
     }
 
+    private void createTable(){
+        database.execSQL(DatabaseTables.SQL_CREATE_TABLE_QUIZ);
+    }
+
     private void addQuiz() {
+        deleteTable(1);
+        createTable();
         ContentValues values = new ContentValues();
         for(int i = 0; i < items.length; i++) {
             values.put(DatabaseTables.Quiz.COLUMN_NAME_NAME, items[i].getName());
@@ -78,7 +91,7 @@ public class FavoriteFragment extends Fragment {
     }
 
     private List<RecyclerViewItem> getQuiz() {
-        Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null, DatabaseTables.Quiz.COLUMN_NAME_CATEGORY + " ASC");
+        Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null, COLUMN_NAME_CATEGORY + " ASC");
         List<RecyclerViewItem> quizList = new ArrayList<>();
         while (cursor.moveToNext()) {
             RecyclerViewItem quiz = new RecyclerViewItem(

@@ -35,42 +35,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
+
 public class MainActivity extends AppCompatActivity {
     private RecyclerViewItem [] recyclerViewItems;
-    private SQLiteDatabase database;
-    private DatabaseHelper databaseHelper;
-    private String values ="";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         new JsonTask().execute("https://wwwlab.iit.his.se/brom/kurser/mobilprog/dbservice/admin/getdataasjson.php?type=a19jimsa");
-        // Initialize instance members.
-        databaseHelper = new DatabaseHelper(this);
-        database = databaseHelper.getWritableDatabase();
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(listener);
-        TextView textView = findViewById(R.id.sqlTable);
-        Button button = findViewById(R.id.sql_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addQuiz();
-            }
-        });
-        Button readButton = findViewById(R.id.sql_read_button);
-        readButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                values = "";
-                List<RecyclerViewItem> items = getQuiz();
-                for(int i = 0; i < items.size(); i++){
-                    values += items.get(i).toString();
-                }
-                textView.setText(values);
-            }
-        });
     }
 
     @Override
@@ -152,36 +130,4 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
-    private int deleteFish(long id) {
-        String selection = DatabaseTables.Quiz.COLUMN_NAME_ID + " = ?";
-        String[] selectionArgs = { String.valueOf(id) };
-        return database.delete(DatabaseTables.Quiz.TABLE_NAME, selection, selectionArgs);
-    }
-
-    private void addQuiz() {
-        ContentValues values = new ContentValues();
-        for(int i = 0; i < recyclerViewItems.length; i++) {
-            values.put(DatabaseTables.Quiz.COLUMN_NAME_NAME, recyclerViewItems[i].getName());
-            values.put(DatabaseTables.Quiz.COLUMN_NAME_CATEGORY, recyclerViewItems[i].getCategory());
-            values.put(DatabaseTables.Quiz.COLUMN_NAME_LOCATION, recyclerViewItems[i].getLocation());
-            database.insert(DatabaseTables.Quiz.TABLE_NAME, null, values);
-        }
-    }
-
-    private List<RecyclerViewItem> getQuiz() {
-        Cursor cursor = database.query(DatabaseTables.Quiz.TABLE_NAME, null, null, null, null, null, DatabaseTables.Quiz.COLUMN_NAME_LOCATION + " DESC");
-        List<RecyclerViewItem> quizList = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            RecyclerViewItem quiz = new RecyclerViewItem(
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Quiz.COLUMN_NAME_ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Quiz.COLUMN_NAME_NAME)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Quiz.COLUMN_NAME_CATEGORY)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseTables.Quiz.COLUMN_NAME_LOCATION))
-            );
-            quizList.add(quiz);
-        }
-        cursor.close();
-        return quizList;
-    }
 }

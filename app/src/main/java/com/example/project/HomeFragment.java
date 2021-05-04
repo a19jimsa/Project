@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(position, item)).commit();
-
             }
         });
     }

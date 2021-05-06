@@ -1,6 +1,7 @@
 package com.example.project;
 
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_CATEGORY;
 import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_ID;
 import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
@@ -41,12 +43,12 @@ public class FavoriteFragment extends Fragment {
     private String selection;
     private String [] selectionArgs;
     private ListView listView;
+    private SharedPreferences myPreferenceRef;
+    private SharedPreferences.Editor myPreferenceEditor;
 
     public FavoriteFragment(RecyclerViewItem [] items) {
         // Required empty public constructor
         this.items = items;
-        this.selection = DatabaseTables.Quiz.COLUMN_NAME_LOCATION + "= ?";
-        this.selectionArgs = new String[]{"Språk"};
     }
 
     @Override
@@ -55,6 +57,11 @@ public class FavoriteFragment extends Fragment {
         // Initialize instance members.
         databaseHelper = new DatabaseHelper(getContext());
         database = databaseHelper.getWritableDatabase();
+        myPreferenceRef = this.getActivity().getPreferences(MODE_PRIVATE);
+        myPreferenceEditor = myPreferenceRef.edit();
+        selection = DatabaseTables.Quiz.COLUMN_NAME_LOCATION + "= ?";
+        selectionArgs = new String[]{myPreferenceRef.getString("location", "Inget värde")};
+        addQuiz();
     }
 
     @Override
@@ -62,11 +69,9 @@ public class FavoriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         MaterialToolbar toolbar = view.findViewById(R.id.favorite_toolbar);
         toolbar.setOnMenuItemClickListener(menuListener);
-        list = getQuiz(selection, selectionArgs);
-        adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
         listView = view.findViewById(R.id.favorite_listView);
         listView.setOnItemClickListener(listener);
-        listView.setAdapter(adapter);
+        updateAdapter();
         return view;
     }
 
@@ -120,14 +125,17 @@ public class FavoriteFragment extends Fragment {
                 switch(item.getItemId()){
                     case R.id.category_item:
                         selectionArgs = new String[]{"Komedi"};
+                        savePref();
                         updateAdapter();
                         break;
                     case R.id.location_item:
                         selectionArgs = new String[]{"Språk"};
+                        savePref();
                         updateAdapter();
                         break;
                     case R.id.name_item:
                         selectionArgs = new String[]{"Historia"};
+                        savePref();
                         updateAdapter();
                         break;
                 }
@@ -136,8 +144,14 @@ public class FavoriteFragment extends Fragment {
     };
 
     private void updateAdapter(){
-        list = new ArrayList<>(getQuiz(selection, selectionArgs));
+        list = getQuiz(selection, selectionArgs);
         adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
         listView.setAdapter(adapter);
+    }
+
+    private void savePref(){
+        // Store the new preference
+        myPreferenceEditor.putString("location", selectionArgs[0]);
+        myPreferenceEditor.apply();
     }
 }

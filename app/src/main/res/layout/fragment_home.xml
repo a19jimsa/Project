@@ -8,7 +8,7 @@
         android:id="@+id/header_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kategorier"
+        android:text="@string/choose_quiz"
         android:gravity="center"
         android:padding="20dp"
         android:textSize="48sp"

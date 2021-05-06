@@ -5,10 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,6 +20,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -25,6 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_CATEGORY;
+import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_ID;
 import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 
 public class FavoriteFragment extends Fragment {
@@ -35,6 +40,7 @@ public class FavoriteFragment extends Fragment {
     private DatabaseHelper databaseHelper;
     private String selection;
     private String [] selectionArgs;
+    private ListView listView;
 
     public FavoriteFragment(RecyclerViewItem [] items) {
         // Required empty public constructor
@@ -54,10 +60,11 @@ public class FavoriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
-        addQuiz();
+        MaterialToolbar toolbar = view.findViewById(R.id.favorite_toolbar);
+        toolbar.setOnMenuItemClickListener(menuListener);
         list = getQuiz(selection, selectionArgs);
         adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
-        ListView listView = view.findViewById(R.id.favorite_listView);
+        listView = view.findViewById(R.id.favorite_listView);
         listView.setOnItemClickListener(listener);
         listView.setAdapter(adapter);
         return view;
@@ -107,4 +114,30 @@ public class FavoriteFragment extends Fragment {
         }
     };
 
+    private Toolbar.OnMenuItemClickListener menuListener = new Toolbar.OnMenuItemClickListener() {
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.category_item:
+                        selectionArgs = new String[]{"Komedi"};
+                        updateAdapter();
+                        break;
+                    case R.id.location_item:
+                        selectionArgs = new String[]{"Språk"};
+                        updateAdapter();
+                        break;
+                    case R.id.name_item:
+                        selectionArgs = new String[]{"Historia"};
+                        updateAdapter();
+                        break;
+                }
+                return true;
+        }
+    };
+
+    private void updateAdapter(){
+        list = new ArrayList<>(getQuiz(selection, selectionArgs));
+        adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
+        listView.setAdapter(adapter);
+    }
 }

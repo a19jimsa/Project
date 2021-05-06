@@ -20,7 +20,7 @@ import java.util.Arrays;
 public class HomeFragment extends Fragment {
     private RecyclerViewItem [] item;
     private ArrayList<RecyclerViewItem> items;
-    private  ArrayAdapter<RecyclerViewItem> adapter;
+    private ArrayAdapter<RecyclerViewItem> adapter;
 
     public HomeFragment(RecyclerViewItem [] item) {
         // Required empty public constructor

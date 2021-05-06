@@ -57,7 +57,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         LinearLayout card;
-        int pressed = 0;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -69,7 +68,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         @Override
         public void onClick(View view) {
             onClickListener.onClick(items.get(getAdapterPosition()), card);
-            pressed = 1;
         }
     }
 

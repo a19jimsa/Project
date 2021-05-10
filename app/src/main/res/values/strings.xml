@@ -2,4 +2,5 @@
     <string name="app_name">Project</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="choose_quiz">Välj quiz</string>
+    <string name="about_text">Detta är den fantastiska quiz-appen. Här kan man utveckla sina kunskaper inom diverse kategorier av frågor. Appen är tillverkad för personer som älskar quiz och kunskap. Det finns quizzar för personer i alla åldrar. Det ska vara lätt att navigera och hitta dina favoritquiz.</string>
 </resources>

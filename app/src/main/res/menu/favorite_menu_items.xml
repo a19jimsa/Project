@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/category_item"
@@ -10,5 +11,11 @@
     <item
         android:id="@+id/name_item"
         android:title="Historia" />
+    <item
+        android:id="@+id/sort_item"
+        android:title="Sortera"
+        android:icon="@drawable/ic_sort"
+        app:showAsAction="always" />
+
 
 </menu>

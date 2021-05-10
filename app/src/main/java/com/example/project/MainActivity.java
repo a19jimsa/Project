@@ -121,9 +121,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_favorites:
                     fragment = new FavoriteFragment(recyclerViewItems);
                     break;
-                case R.id.nav_quiz:
-                    fragment = new HomeFragment(recyclerViewItems);
-                    break;
             }
             getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out,R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainer, fragment).commit();
             return true;

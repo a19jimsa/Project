@@ -3,20 +3,16 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title="Hem"/>
 
     <item
         android:id="@+id/nav_favorites"
         android:icon="@drawable/ic_favorite"
-        android:title="Favorites"/>
+        android:title="Favoriter"/>
 
     <item
         android:id="@+id/nav_about"
         android:icon="@drawable/ic_info"
-        android:title="About"/>
-    <item
-        android:id="@+id/nav_quiz"
-        android:icon="@drawable/ic_quiz"
-        android:title="Quiz"/>
+        android:title="Om appen"/>
 
 </menu>

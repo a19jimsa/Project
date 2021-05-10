@@ -16,23 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_CATEGORY;
-import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_ID;
-import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_LOCATION;
 import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 
 public class FavoriteFragment extends Fragment {
@@ -60,8 +52,8 @@ public class FavoriteFragment extends Fragment {
         database = databaseHelper.getWritableDatabase();
         myPreferenceRef = this.getActivity().getPreferences(MODE_PRIVATE);
         myPreferenceEditor = myPreferenceRef.edit();
-        selection = DatabaseTables.Quiz.COLUMN_NAME_LOCATION + "= ?";
-        selectionArgs = new String[]{myPreferenceRef.getString("location", "Inget värde")};
+        selection = COLUMN_NAME_CATEGORY + "= ?";
+        selectionArgs = new String[]{myPreferenceRef.getString("category", "Novalue")};
         addQuiz();
     }
 
@@ -76,7 +68,7 @@ public class FavoriteFragment extends Fragment {
         return view;
     }
 
-    private void deleteTable(long id) {
+    private void deleteTable() {
         database.execSQL(DatabaseTables.SQL_DELETE_TABLE_QUIZ);
     }
 
@@ -85,13 +77,13 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void addQuiz() {
-        deleteTable(1);
+        deleteTable();
         createTable();
         ContentValues values = new ContentValues();
-        for(int i = 0; i < items.length; i++) {
-            values.put(DatabaseTables.Quiz.COLUMN_NAME_NAME, items[i].getName());
-            values.put(DatabaseTables.Quiz.COLUMN_NAME_CATEGORY, items[i].getCategory());
-            values.put(DatabaseTables.Quiz.COLUMN_NAME_LOCATION, items[i].getLocation());
+        for (RecyclerViewItem item : items) {
+            values.put(DatabaseTables.Quiz.COLUMN_NAME_NAME, item.getName());
+            values.put(DatabaseTables.Quiz.COLUMN_NAME_CATEGORY, item.getCategory());
+            values.put(DatabaseTables.Quiz.COLUMN_NAME_LOCATION, item.getLocation());
             database.insert(TABLE_NAME, null, values);
         }
     }
@@ -112,15 +104,15 @@ public class FavoriteFragment extends Fragment {
         return quizList;
     }
 
-    private AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+    private final AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(Integer.parseInt(list.get(position).getId())-1, items)).commit();
+            getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainer, new QuizFragment(Integer.parseInt(list.get(position).getId())-1, items)).commit();
             Log.d("TAG", list.get(position).toString());
         }
     };
 
-    private Toolbar.OnMenuItemClickListener menuListener = new Toolbar.OnMenuItemClickListener() {
+    private final Toolbar.OnMenuItemClickListener menuListener = new Toolbar.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
                 switch(item.getItemId()){
@@ -146,13 +138,14 @@ public class FavoriteFragment extends Fragment {
 
     private void updateAdapter(){
         list = getQuiz(selection, selectionArgs);
+        //In order to update the listview.
         adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
         listView.setAdapter(adapter);
     }
 
     private void savePref(){
         // Store the new preference
-        myPreferenceEditor.putString("location", selectionArgs[0]);
+        myPreferenceEditor.putString("category", selectionArgs[0]);
         myPreferenceEditor.apply();
     }
 }

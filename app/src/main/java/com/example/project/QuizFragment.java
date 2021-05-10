@@ -67,7 +67,8 @@ public class QuizFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button.setText("Next Question");
+                button.setText("Nästa");
+                button.setVisibility(View.INVISIBLE);
                 createQuiz();
                 nextQuestion(view);
                 adapter.notifyDataSetChanged();
@@ -75,7 +76,7 @@ public class QuizFragment extends Fragment {
         });
 
         TextView textView = view.findViewById(R.id.title);
-        textView.setText("Starta Quizzet!\nKategori " + item[category].getCategory() + "\nOmråde: " + item[category].getLocation());
+        textView.setText("Starta Quizzet!\nNamn: " + item[category].getName() + "\nKategori " + item[category].getCategory() + "\nOmråde: " + item[category].getLocation());
         button.setText("Starta");
         return view;
     }
@@ -94,6 +95,7 @@ public class QuizFragment extends Fragment {
             adapter.notifyDataSetChanged();
             points = 0;
             button.setText("Spela igen?");
+            button.setVisibility(View.VISIBLE);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -119,6 +121,7 @@ public class QuizFragment extends Fragment {
             }
             adapter.updateClickAble(true);
             adapter.notifyDataSetChanged();
+            button.setVisibility(View.VISIBLE);
         }
     };
 }

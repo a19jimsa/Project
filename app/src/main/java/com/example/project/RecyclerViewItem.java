@@ -62,6 +62,6 @@ public class RecyclerViewItem{
 
     @Override
     public String toString() {
-        return category;
+        return name;
     }
 }

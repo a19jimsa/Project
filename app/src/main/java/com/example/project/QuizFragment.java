@@ -97,7 +97,7 @@ public class QuizFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(category, item)).commit();
+                    getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainer, new QuizFragment(category, item)).commit();
                 }
             });
         }
@@ -117,7 +117,7 @@ public class QuizFragment extends Fragment {
             }else {
                 card.setBackgroundColor(ContextCompat.getColor(recyclerView.getContext(), R.color.incorrect));
             }
-            adapter.updateVisibility(true);
+            adapter.updateClickAble(true);
             adapter.notifyDataSetChanged();
         }
     };

@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new HomeFragment(recyclerViewItems);
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit();
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out,R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainer, fragment).commit();
             return true;
         }
     };

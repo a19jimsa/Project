@@ -13,13 +13,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
     private RecyclerViewItem [] item;
-    private ArrayList<RecyclerViewItem> items;
+    private List<RecyclerViewItem> items;
     private ArrayAdapter<RecyclerViewItem> adapter;
 
     public HomeFragment(RecyclerViewItem [] item) {
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getFragmentManager().beginTransaction().replace(R.id.fragmentContainer, new QuizFragment(position, item)).commit();
+                getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainer, new QuizFragment(position, item)).commit();
 
             }
         });

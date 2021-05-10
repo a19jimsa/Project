@@ -32,6 +32,7 @@ import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_CATEGORY;
 import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_ID;
+import static com.example.project.DatabaseTables.Quiz.COLUMN_NAME_LOCATION;
 import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 
 public class FavoriteFragment extends Fragment {

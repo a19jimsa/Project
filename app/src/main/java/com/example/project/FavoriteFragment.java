@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
@@ -30,7 +31,7 @@ import static com.example.project.DatabaseTables.Quiz.TABLE_NAME;
 
 public class FavoriteFragment extends Fragment {
     private List<RecyclerViewItem> list;
-    private final RecyclerViewItem [] items;
+    private RecyclerViewItem [] items;
     private SQLiteDatabase database;
     private DatabaseHelper databaseHelper;
     private String selection;
@@ -39,6 +40,10 @@ public class FavoriteFragment extends Fragment {
     private ListView listView;
     private SharedPreferences myPreferenceRef;
     private SharedPreferences.Editor myPreferenceEditor;
+
+    public FavoriteFragment() {
+        // Required empty public constructor
+    }
 
     public FavoriteFragment(RecyclerViewItem [] items) {
         // Required empty public constructor

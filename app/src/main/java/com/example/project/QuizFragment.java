@@ -2,6 +2,7 @@ package com.example.project;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.icu.text.RelativeDateTimeFormatter;
 import android.os.Bundle;
 
@@ -12,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -91,6 +95,7 @@ public class QuizFragment extends Fragment {
             nextQuestion++;
         }else{
             textView.setText("Ditt resultat blev " + points + " av " + item[category].getAuxdata().length + "!\nBra jobbat!");
+            showKonfetti(view);
             items.clear();
             adapter.notifyDataSetChanged();
             points = 0;
@@ -108,6 +113,20 @@ public class QuizFragment extends Fragment {
     private void createQuiz(){
         adapter = new RecyclerViewAdapter(getContext(), items, listener);
         recyclerView.setAdapter(adapter);
+    }
+
+    private void showKonfetti(View view){
+        final KonfettiView konfettiView = view.findViewById(R.id.viewKonfetti);
+        konfettiView.build()
+                .addColors(Color.YELLOW, Color.GREEN, Color.MAGENTA, Color.BLUE)
+                .setDirection(0.0, 359.0)
+                .setSpeed(1f, 5f)
+                .setFadeOutEnabled(true)
+                .setTimeToLive(2000L)
+                .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                .addSizes(new Size(12, 5f))
+                .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                .streamFor(300, 5000L);
     }
 
     private final RecyclerViewAdapter.OnClickListener listener = new RecyclerViewAdapter.OnClickListener() {

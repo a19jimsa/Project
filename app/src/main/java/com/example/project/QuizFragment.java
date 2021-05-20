@@ -80,7 +80,7 @@ public class QuizFragment extends Fragment {
         });
 
         TextView textView = view.findViewById(R.id.title);
-        textView.setText("Starta Quizzet!\nNamn: " + item[category].getName() + "\nKategori " + item[category].getCategory() + "\nOmråde: " + item[category].getLocation());
+        textView.setText("Starta Quizzet!\nNamn: " + item[category].getName() + "\nKategori: " + item[category].getCategory() + "\nOmråde: " + item[category].getLocation());
         button.setText("Starta");
         return view;
     }
@@ -94,8 +94,12 @@ public class QuizFragment extends Fragment {
             adapter.notifyDataSetChanged();
             nextQuestion++;
         }else{
-            textView.setText("Ditt resultat blev " + points + " av " + item[category].getAuxdata().length + "!\nBra jobbat!");
-            showKonfetti(view);
+            if(points == item[category].getAuxdata().length){
+                textView.setText("Ditt resultat blev " + points + " av " + item[category].getAuxdata().length + "!\nBra jobbat!");
+                showKonfetti(view);
+            }else{
+                textView.setText("Ditt resultat blev " + points + " av " + item[category].getAuxdata().length + "!\nDu kan bättre!");
+            }
             items.clear();
             adapter.notifyDataSetChanged();
             points = 0;

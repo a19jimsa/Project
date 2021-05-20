@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -20,6 +22,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +40,12 @@ public class FavoriteFragment extends Fragment {
     private List<RecyclerViewItem> list;
     private RecyclerViewItem [] items;
     private SQLiteDatabase database;
-    private DatabaseHelper databaseHelper;
     private String selection;
     private String [] selectionArgs;
     private String sort;
     private ListView listView;
-    private SharedPreferences myPreferenceRef;
     private SharedPreferences.Editor myPreferenceEditor;
+    private BadgeDrawable badge;
 
     public FavoriteFragment() {
         // Required empty public constructor
@@ -54,9 +60,9 @@ public class FavoriteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize instance members.
-        databaseHelper = new DatabaseHelper(getContext());
+        DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
         database = databaseHelper.getWritableDatabase();
-        myPreferenceRef = this.getActivity().getPreferences(MODE_PRIVATE);
+        SharedPreferences myPreferenceRef = this.getActivity().getPreferences(MODE_PRIVATE);
         myPreferenceEditor = myPreferenceRef.edit();
         selection = COLUMN_NAME_CATEGORY + "= ?";
         selectionArgs = new String[]{myPreferenceRef.getString("category", "Novalue")};
@@ -69,10 +75,19 @@ public class FavoriteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         MaterialToolbar toolbar = view.findViewById(R.id.favorite_toolbar);
         toolbar.setOnMenuItemClickListener(menuListener);
+        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
+        badge = bottomNav.getOrCreateBadge(R.id.nav_favorites);
+        badge.setVisible(true);
+        badge.setNumber(getQuiz().size());
         listView = view.findViewById(R.id.favorite_listView);
         listView.setOnItemClickListener(listener);
         updateAdapter();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 
     private void deleteTable() {
@@ -115,7 +130,6 @@ public class FavoriteFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             getFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.fragmentContainer, new QuizFragment(Integer.parseInt(list.get(position).getId())-1, items)).commit();
-            Log.d("TAG", list.get(position).toString());
         }
     };
 
@@ -154,9 +168,11 @@ public class FavoriteFragment extends Fragment {
 
     private void updateAdapter(){
         list = getQuiz();
+        badge.setNumber(list.size());
         //In order to update the listview.
         ArrayAdapter<RecyclerViewItem> adapter = new ArrayAdapter<>(getContext(), R.layout.favorite_item_list, R.id.favorite_textView, list);
         listView.setAdapter(adapter);
+
     }
 
     private void savePref(){

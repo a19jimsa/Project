@@ -23,11 +23,10 @@
     <TextView
         android:id="@+id/about_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/about_text"
         android:textSize="24sp"
         android:padding="10dp"
-        android:layout_margin="20dp"
         android:justificationMode="inter_word"
         />
     </ScrollView>

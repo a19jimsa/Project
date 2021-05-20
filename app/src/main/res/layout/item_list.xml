@@ -7,7 +7,6 @@
     android:layout_margin="20dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="2dp"
-    android:layoutAnimation="@anim/layout_animation"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -17,7 +16,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
-
         android:gravity="center">
 
         <TextView

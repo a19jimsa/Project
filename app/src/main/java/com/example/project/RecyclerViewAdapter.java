@@ -22,7 +22,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private List<Answer> items;
     private LayoutInflater layoutInflater;
     private OnClickListener onClickListener;
-    private Boolean isClickAble = false;
+    private Boolean isClickAble = true;
 
     RecyclerViewAdapter(Context context, List<Answer> items, OnClickListener onClickListener) {
         this.layoutInflater = LayoutInflater.from(context);
@@ -39,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.title.setText(items.get(position).getChoice());
-        if(isClickAble){
+        if(!isClickAble){
             holder.card.setOnClickListener(null);
         }
     }

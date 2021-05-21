@@ -142,7 +142,7 @@ public class QuizFragment extends Fragment {
             }else {
                 card.setBackgroundColor(ContextCompat.getColor(recyclerView.getContext(), R.color.incorrect));
             }
-            adapter.updateClickAble(true);
+            adapter.updateClickAble(false);
             adapter.notifyDataSetChanged();
             button.setVisibility(View.VISIBLE);
         }

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 public class AboutFragment extends DialogFragment{
 
@@ -35,9 +36,6 @@ public class AboutFragment extends DialogFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Dialog dialog = onCreateDialog(savedInstanceState);
-        dialog.show();
-
     }
 
     @Override
@@ -45,7 +43,9 @@ public class AboutFragment extends DialogFragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-
+        Dialog dialog = onCreateDialog(savedInstanceState);
+        dialog.setTitle(R.string.about_header);
+        dialog.show();
         return view;
     }
 }

@@ -40,7 +40,7 @@ public class FavoriteFragment extends Fragment {
     private List<RecyclerViewItem> list;
     private RecyclerViewItem [] items;
     private SQLiteDatabase database;
-    private String selection;
+    private final String selection = COLUMN_NAME_CATEGORY + "= ?";
     private String [] selectionArgs;
     private String sort;
     private ListView listView;
@@ -64,7 +64,6 @@ public class FavoriteFragment extends Fragment {
         database = databaseHelper.getWritableDatabase();
         SharedPreferences myPreferenceRef = this.getActivity().getPreferences(MODE_PRIVATE);
         myPreferenceEditor = myPreferenceRef.edit();
-        selection = COLUMN_NAME_CATEGORY + "= ?";
         selectionArgs = new String[]{myPreferenceRef.getString("category", "Novalue")};
         sort = myPreferenceRef.getString("sort", "ASC");
         addQuiz();

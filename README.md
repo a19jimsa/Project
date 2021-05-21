@@ -24,6 +24,11 @@ Eftersom alla svar läggs i en RecyclerView var det speciellt att kunna styra hu
 ```
 Funktionerna styr alla objekt i adapten och därför sätts alla objekt till oklickbara genom onBindViewHolder om man satt isClickAble till false i programkoden vid ett event, i det här fallet när man tryckt på ett svar. Här får man mer kontroll över det som ligger i listan att kunna styra vad som ska hända med varje objekt till skillnad mot en vanlig ListView. Här kan man enkelt säga vilken data från JSON ska placeras var i de olika beståndsdelar som existerar i en view. T ex här en materialcardView och sätter texten till de olika svaren som hämtats från datan. På så sätt kunna skapa ett quiz. Man kan sätta en eventlyssnare på varje vy som skapats och bestämma vad som ska hända om man klickar t ex respektive rätt eller fel svar kan man sätta grön eller röd färg beroende på svar. Eftersom varje knapp returnerar true eller false när man klickat på respektive knapp.
 
+För att sortera och filtrera användes SQLite där den uthämtade datan lagras i en array som skickas mellan olika fragment. I favoriteFragment skapas en tabell där datan från arrayen lagras och ställs frågor mot t ex att filtrera på olika kategorier. Eller sortera på asc eller desc beroende på vad man vill. Som sedan sätts till en listview där datan då skrivs ut. Så hela tiden uppdaterar listan med data beroende på vilken fråga man ställer. Frågorna är hårdkodade mot kategorier som finns för att kunna filtrera när man klickar på en menyknapp. För att lagra data i i SQLite användes två klasser DatabaseHelper och DatabaseTables som skapar statiska variabler för att enkelt veta att man alltid anropar rätt databas. Och ställer rätt frågor mot kategorier som finns.
+
+För att kunna spara sina val när appen stängds användes SharedPreferences som lagrar data i key value pair där valen man gör sparas varje gång de uppdateras och hämtas ut varje gång man startar upp appen. På så sätts hämtas alltid korrekt kategori ut när man startar om appen. Dessa lagras och hämtas sedan ut till en sträng som finns i FavoriteFragment-klassen. Eftersom den sträng man skickar är en array som fråga till SQLite så skapas denna på nytt och läggs till i en privat medlemsvariabel vid körning som sedan läggs till i frågan som ställs mot databasen så man kan hämta ut rätt värden.
+
+Under konstruktion...
 
 
 
